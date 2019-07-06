@@ -1,7 +1,7 @@
 main();
 
 function main(){
-            
+    
     try {
         
         var divs1 = document.getElementsByClassName("MreMs");
@@ -19,16 +19,35 @@ function main(){
             
     // which pic is being showed
     var picNo = translateXPositive / imageWidth;
-                
-    // to get second outer div element of the image
-    var divs = document.getElementsByClassName("eLAPa RzuR0");
-    if(divs.length == 0) var divs = document.getElementsByClassName("eLAPa kPFhm");
-    if(divs.length == 0) var divs = document.getElementsByClassName("eLAPa _23QFA");
-            
-    var divElement = new DOMParser().parseFromString(divs[picNo].innerHTML, 'text/xml');
-        
-    var photoLink = divElement.getElementsByTagName("img")[0].attributes.src.textContent;
     
-    window.open(photoLink);
+    try {
+        var ariaHiddenValue = document.getElementById("react-root").attributes[1].nodeValue;
         
+        // case: in instagram profile - in display mode
+        if(ariaHiddenValue == "true"){
+            var imagePageUrl = location.href;
+            chrome.runtime.sendMessage({imagePageUrl: imagePageUrl, picNo: picNo });
+        }
+        
+    } catch (e) {
+        // case: in instagram image page
+        
+        var json = JSON
+                        .parse(new RegExp('<script type="text\/javascript">window\._sharedData = (.*);+<\/script>')
+                        .exec(document.documentElement.innerHTML)[1]);
+        
+        var media = json.entry_data.PostPage[0].graphql.shortcode_media;
+            
+        if(media.__typename == "GraphImage"){
+            var photoLink = media.display_url;
+        }
+        
+        if(media.__typename == "GraphSidecar"){
+             var photoLink = media.edge_sidecar_to_children.edges[response.picNo].node.display_url;
+         }
+        
+        window.open(photoLink);
+        
+    }
+                      
 }

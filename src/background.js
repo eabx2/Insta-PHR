@@ -64,3 +64,26 @@ chrome.contextMenus.create({
     contexts: ["page"], // allow to be appeared in only page
     onclick: openHighResolution
 });
+
+// add listener
+chrome.runtime.onMessage.addListener(function(response, sender, sendResponse){
+        
+    getPage(response.imagePageUrl)
+        .then(value => {
+            var json = JSON.parse(new RegExp('<script type="text\/javascript">window\._sharedData = (.*);+<\/script>').exec(value)[1]);
+            var media = json.entry_data.PostPage[0].graphql.shortcode_media;
+            
+            if(media.__typename == "GraphImage"){
+                var photoLink = media.display_url;
+            }
+        
+            if(media.__typename == "GraphSidecar"){
+                var photoLink = media.edge_sidecar_to_children.edges[response.picNo].node.display_url;
+            }
+        
+            window.open(photoLink);
+    });
+    
+    
+    return true;
+});
