@@ -1,0 +1,17 @@
+{
+    "manifest_version": 2,
+    "name": "Insta-PHR",
+    "version": "0.1",
+    "description" : "Opens the selected photo in high resolution",
+    
+    "background": {
+        "scripts": ["src/background.js"]
+    },
+    
+    "permissions":[
+        "https://*.instagram.com/*",
+        "http://*.instagram.com/*",
+        "contextMenus"
+    ]
+    
+}
