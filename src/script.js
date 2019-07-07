@@ -43,7 +43,7 @@ function main(){
         }
         
         if(media.__typename == "GraphSidecar"){
-             var photoLink = media.edge_sidecar_to_children.edges[response.picNo].node.display_url;
+             var photoLink = media.edge_sidecar_to_children.edges[picNo].node.display_url;
          }
         
         window.open(photoLink);
