@@ -60,7 +60,7 @@ chrome.contextMenus.create({
 // add context menu in case: in instagram photo
 chrome.contextMenus.create({
     title: "Open in High Resolution",
-    documentUrlPatterns: ["*://www.instagram.com/p/*/"], // show in only instagram profile
+    documentUrlPatterns: ["*://www.instagram.com/p/*"], // show in only instagram profile
     contexts: ["page"], // allow to be appeared in only page
     onclick: openHighResolution
 });
